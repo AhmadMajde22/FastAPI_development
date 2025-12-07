@@ -1,0 +1,4 @@
+.vscode/
+python_api_development_env/
+__pycache__/
+.env
