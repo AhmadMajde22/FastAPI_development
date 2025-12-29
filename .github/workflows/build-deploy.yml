@@ -76,13 +76,26 @@ jobs:
       # - name: deploying on render.com
       #   run: |
       #     curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
-      - name: deploy to ubntu server
+      - name: Deploy to Ubuntu server (SSH key + sudo password)
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{secrets.PROD_HOST}}
-          username: ${{secrets.PROD_USERNAME}}
-          password: ${{secrets.PROD_PASSWORD}}
+          host: ${{ secrets.PROD_HOST }}
+          port: ${{ secrets.PROD_PORT }}
+          username: ${{ secrets.PROD_USERNAME }}
+
+          # SSH authentication
+          key: ${{ secrets.VM_SSH_KEY }}
+          passphrase: ${{ secrets.VM_SSH_PASSPHRASE }}
+
           script: |
-            cd /app/src
+            set -e
+
+            cd /home/ahmad_fastapi/app
+            source venv/bin/activate
+            cd src
+
             git pull origin main
+            pip install -r ../requirements.txt
+            alembic upgrade head
+
             echo ${{secrets.PROD_PASSWORD}} sudo systemctl restart api
