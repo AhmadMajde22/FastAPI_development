@@ -71,5 +71,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: deploying stuff
-        run: echo "Deploying application..."
+      - name: deploying on render.com
+        run: |
+          curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
