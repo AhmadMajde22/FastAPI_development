@@ -76,6 +76,15 @@ jobs:
       # - name: deploying on render.com
       #   run: |
       #     curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
+      - name: Debug SSH key presence
+        run: |
+          if [ -z "${{ secrets.VM_SSH_KEY }}" ]; then
+            echo "❌ VM_SSH_KEY is EMPTY"
+            exit 1
+          fi
+
+          echo "✅ VM_SSH_KEY is PRESENT"
+          echo "Length: ${#VM_SSH_KEY}"
       - name: Deploy to Ubuntu server (SSH key + sudo password)
         uses: appleboy/ssh-action@v1
         with:
