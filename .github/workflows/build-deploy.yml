@@ -73,6 +73,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: deploying on render.com
-        run: |
-          curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
+      # - name: deploying on render.com
+      #   run: |
+      #     curl -X POST ${{secrets.RENDER_DEPLOY_HOOK}}
+      - name: deploy to ubntu server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{secrets.PROD_HOST}}
+          username: ${{secrets.PROD_USERNAME}}
+          password: ${{secrets.PROD_PASSWORD}}
+          script: |
+            cd /app/src
+            git pull origin main
+            sudo systemctl restart api
