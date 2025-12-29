@@ -79,7 +79,7 @@ jobs:
       - name: Debug SSH key presence
         run: |
           if [ -z "${{ secrets.VM_SSH_KEY }}" ]; then
-            echo "VM_SSH_KEY is EMPTY"
+            echo "❌ VM_SSH_KEY is EMPTY"
             exit 1
           fi
 
@@ -90,6 +90,7 @@ jobs:
         with:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USERNAME }}
+          port: 2222
 
           # SSH authentication
           key: ${{ secrets.VM_SSH_KEY }}
