@@ -1,6 +1,6 @@
 name: Build and Deploy Code
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   job1:
@@ -23,22 +23,22 @@ jobs:
           POSTGRES_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
           POSTGRES_DB: ${{secrets.DATABASE_NAME}}_test
         ports:
-        - 5432:5432
+          - 5432:5432
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     runs-on: ubuntu-latest
     steps:
-    - name: pulling git repo
-      uses: actions/checkout@v2
-    - name: setting up python
-      uses: actions/setup-python@v6
-      with:
-        python-version: "3.12"
-    - name: update pip
-      run: python -m pip install --upgrade pip
-    - name: installing dependencies
-      run: pip install -r requirements.txt
-    - name: running tests
-      run: |
-        pip install pytest
-        pytest
+      - name: pulling git repo
+        uses: actions/checkout@v2
+      - name: setting up python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: update pip
+        run: python -m pip install --upgrade pip
+      - name: installing dependencies
+        run: pip install -r requirements.txt
+      - name: running tests
+        run: |
+          pip install pytest
+          pytest
